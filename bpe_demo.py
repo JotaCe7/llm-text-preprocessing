@@ -26,7 +26,7 @@ def demonstrate_bpe_handls_unknown_words():
     print(f"Token ids: {ids2}")
 
     strings2 = tokenizer.decode(ids2)
-    print(f"Decoded text: {text2}")
+    print(f"Decoded text: {strings2}")
     print("\nEven 'Ajhayw' is broken down into subwords like 'Aj', 'hay', 'w'.")
 
 

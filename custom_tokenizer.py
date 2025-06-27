@@ -53,16 +53,12 @@ class SimpleTokenizerV1:
 
 # --- Version 2: Handling Unknown Words ---
 
-class SimpleTokenizerV2:
+class SimpleTokenizerV2(SimpleTokenizerV1):
     """
     An improved tokenizer that handles out-of-vocabulary words using an <|unk|> token.
     
     Inherits from SimpleTokenizerV1 and overrides the encode method.
     """
-
-    def __init__(self, vocab):
-        self.encoder = vocab
-        self.decoder = {id:token for token, id in vocab.items()}
 
     def encode(self, text):
         """
@@ -84,18 +80,3 @@ class SimpleTokenizerV2:
         ]
         ids = [self.encoder[token] for token in preprocessed_with_unk ]
         return ids
-
-    def decode(self, ids):
-        """
-        Converts a list of token IDs back into a string of text.
-
-        Args:
-            ids (list[int]): The list of token IDs to decode.
-
-        Returns:
-            str: The reconstructed text.
-        """
-        text = " ".join([self.decoder[id] for id in ids])
-        # Fix spacing around punctuation
-        text = re.sub(r'\s+([,.;:?_!"()\'])', r'\1', text)
-        return text
