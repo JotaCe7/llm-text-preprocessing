@@ -48,3 +48,29 @@ class GPTDatasetV1(Dataset):
             A tuple containing the input tensor and the target tensor.
         """
         return self.input_ids[index], self.target_ids[index]
+
+def create_dataloader(txt: str, batch_size: int = 4, max_length: int = 256, stride: int = 128, shuffle: bool = True) -> DataLoader:
+    """
+    Creates a PyTorch DataLoader from a raw text string.
+
+    Args:
+        txt (str): The raw text to looad.
+        batch_size (int): The number of sequences per batch.
+    
+    Returns:
+        DataLoader: A PyTorch DataLoader instance ready for training.
+    """
+    # Initialize the GPT-2 tokenizer
+    tokenizer = tiktoken.get_encoding("gpt2")
+
+    # Create the dataset
+    dataset = GPTDatasetV1(txt=txt, tokenizer=tokenizer, max_length=max_length, stride=stride)
+
+    # Create the DataLoader
+    dataloader = DataLoader(
+        dataset=dataset,
+        batch_size=batch_size,
+        shuffle=shuffle
+    )
+
+    return dataloader
